@@ -24,6 +24,12 @@ def search_recode(recode_dict: dict, nu: str, by_name=False):
     result = recode_dict.get(nu)
     return result if result else f'Sorry, the {search_term} is not found'
 
+def add_recode(recode_dict: dict, name: str, number: str):
+    recode_dict = {na: nu for nu, na in recode_dict.items()}
+    if recode_dict.get(name):
+        return 'Sorry this person has number already'
+    recode_dict[name] = number
+    return f'{name} was added to recode seccessfuly'
 
 if __name__ == '__main__':
     print("""
@@ -46,3 +52,12 @@ if __name__ == '__main__':
     elif user_input == '2':
         name = input('Person name: ')
         print(search_recode(recode_names, name, by_name=True))
+    elif user_input == 'n':
+        person_name = input('Person name (Letters only): ')
+        person_number = input('Person number (Ten digits): ')
+        if re.match('[a-zA-Z]+', person_name) and re.match('\\d{10}', person_number):
+            print(add_recode(recode_names, person_name, person_number))
+        else:
+            print('The person name or person number invaled.')
+    else:
+        print('Unknow input!!')
